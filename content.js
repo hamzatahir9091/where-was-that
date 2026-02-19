@@ -97,11 +97,24 @@ function loadPins() {
 		let savedPins = document.createElement("div")
 		savedPins.id = "savedPins"
 
-		for (const pin of currentPins) {
-			savedPins.innerHTML += `
-            <div class="writtenTitle">
-            ${pin.title}
-            </div>`
+		for (const [index, pin] of currentPins.entries()) {
+			const pinDiv = document.createElement("div")
+			pinDiv.className = "writtenTitle"
+			pinDiv.textContent = pin.title || "(No Title)"
+
+			// Add click listener to each pin div
+			pinDiv.addEventListener("click", () => {
+				// Scroll to saved position
+				window.scrollTo({
+					top: pin.scrollOffset,
+					behavior: "smooth",
+				})
+
+				// Optionally, close the savedPins div
+				document.getElementById("savedPins")?.remove()
+			})
+
+			savedPins.appendChild(pinDiv)
 		}
 
 		Object.assign(savedPins.style, {
@@ -131,3 +144,4 @@ document.addEventListener("keydown", (e) => {
 	if (e.key === "Escape") document.getElementById("pinPopup")?.remove()
 })
 
+function pinScroll() {}
