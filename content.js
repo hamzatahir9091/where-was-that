@@ -158,7 +158,6 @@ function loadPins() {
 	})
 }
 
-
 function isScrollable(el) {
 	const style = getComputedStyle(el)
 	const hasScrollableContent = el.scrollHeight > el.clientHeight
@@ -168,33 +167,71 @@ function isScrollable(el) {
 	return hasScrollableContent && hasOverflowY
 }
 
+// function scrollerElement() {
+// 	let check = 0
+// 	// returning window if its the scroller
+// 	const winHeight = window.innerHeight
+// 	const body = document.body
+// 	const fullHeight = body.scrollHeight
+// 	if (fullHeight > winHeight + 50) return window
+
+// 	const allElements = document.querySelectorAll("*")
+// 	// const scrollables = Array.from(allElements).filter(isScrollable)
+// 	const scrollables = Array.from(allElements).filter(el => {
+// 	check++
+// 	return isScrollable(el)
+// })
+
+// 	let maxWidth = 0
+// 	let maxWelement = null
+
+// 	// now we will check which scrollable element is main container
+// 	for (const el of scrollables) {
+// 		check++
+// 		// const width = el.getBoundingClientRect().width
+// 		const scrollArea = el.scrollHeight * el.scrollWidth
+
+// 		if (scrollArea > maxWidth) {
+// 			maxWidth = scrollArea
+// 			maxWelement = el
+// 		}
+// 	}
+
+// 	console.log('check', check)
+// 	console.log("Total scrollables found:", scrollables.length)
+// 	return maxWelement
+// }
+
 function scrollerElement() {
-	// comparing screen height
-
-	const winHeight = window.innerHeight
-
-	const body = document.body
-	const fullHeight = body.scrollHeight
-
-	if (fullHeight > winHeight + 50) return window
-
-	const allElements = document.querySelectorAll("*")
-	const scrollables = Array.from(allElements).filter(isScrollable)
-
-	let maxWidth = 0
-	let maxWelement = null
-
-	// now we will check which scrollable element is main container
-	for (const el of scrollables) {
-		// const width = el.getBoundingClientRect().width
-		const scrollArea = el.scrollHeight * el.scrollWidth
-
-		if (scrollArea > maxWidth) {
-			maxWidth = scrollArea
-			maxWelement = el
-		}
+	let check = 0
+	// 1️⃣ If window scrolls, use it immediately
+	if (document.documentElement.scrollHeight > window.innerHeight + 10) {
+		return window
 	}
-	return maxWelement
+
+	// 2️⃣ Check body explicitly
+	if (isScrollable(document.body)) {
+		return document.body
+	}
+
+	// 3️⃣ Walk up from a deep element instead of scanning entire DOM
+	let el = document.elementFromPoint(
+		window.innerWidth / 2,
+		window.innerHeight / 2
+	)
+
+	while (el && el !== document.body) {
+		check++
+		if (isScrollable(el)) {
+			console.log('check', check)
+			return el
+		}
+		el = el.parentElement
+	}
+
+	console.log('check', check)
+	// 4️⃣ Fallback
+	return window
 }
 
 function getScroller() {
