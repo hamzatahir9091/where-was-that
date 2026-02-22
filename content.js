@@ -3,6 +3,9 @@ let cachedScroller = null
 
 function addPin() {
 	if (document.getElementById("pinPopup")) return
+	if (document.getElementById("savedPins")) {
+		document.getElementById("savedPins").remove()
+	}
 
 	const pop = document.createElement("div")
 	pop.id = "pinPopup"
@@ -57,13 +60,6 @@ function addPin() {
 		// Optionally, remove the saved pins UI
 		document.getElementById("savedPins")?.remove()
 	})
-
-	document.addEventListener("keydown", function escHandler(e) {
-		if (e.key === "Escape") {
-			pop.remove()
-			document.removeEventListener("keydown", escHandler)
-		}
-	})
 }
 
 function savePin() {
@@ -106,6 +102,7 @@ function loadPins() {
 	if (document.getElementById("savedPins")) {
 		document.getElementById("savedPins").remove()
 	}
+	if (document.getElementById("pinPopup")) return
 
 	const url = window.location.href
 
@@ -274,17 +271,10 @@ function getScroller() {
 }
 
 document.addEventListener("keydown", (e) => {
-	if (e.key === "S") addPin()
-	if (e.key === "O") loadPins()
-	if (e.key === "P") {
-		const temp = scrollerElement()
-		console.log("temp", temp)
-		console.log("temp.scrollHeight", temp.scrollHeight)
-
-		temp.scrollTo(0, 100)
+	if (e.key === "Escape") {
+		document.getElementById("pinPopup")?.remove()
+		document.getElementById("savedPins")?.remove()
 	}
-
-	if (e.key === "Escape") document.getElementById("pinPopup")?.remove()
 })
 
 window.addEventListener("load", () => {
@@ -400,4 +390,17 @@ window.addEventListener("load", () => {
 
 `
 	document.head.appendChild(style)
+})
+
+chrome.runtime.onMessage.addListener((message) => {
+	if (message.action === "add-pin") addPin()
+
+	if (message.action === "open-pins") loadPins()
+
+	if (message.action === "clear-pins") {
+		const url = window.location.href
+		MARKERS.delete(url)
+		chrome.storage.local.remove(url)
+		document.getElementById("savedPins")?.remove()
+	}
 })

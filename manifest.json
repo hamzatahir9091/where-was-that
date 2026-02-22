@@ -1,9 +1,37 @@
 {
   "manifest_version": 3,
-  "name": "What was That",
+  "name": "Pin Extension",
   "version": "1.0",
-  "description": "Pin scroll positions on any page",
   "permissions": ["storage", "activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "add-pin": {
+      "suggested_key": {
+        "default": "Alt+S",
+        "mac": "Alt+S"
+      },
+      "description": "Add Pin"
+    },
+    "open-pins": {
+      "suggested_key": {
+        "default": "Alt+O",
+        "mac": "Alt+O"
+      },
+      "description": "Open Saved Pins"
+    },
+    "clear-pins": {
+      "suggested_key": {
+        "default": "Alt+C",
+        "mac": "Alt+C"
+      },
+      "description": "Clear Pins"
+    }
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
