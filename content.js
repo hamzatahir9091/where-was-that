@@ -8,21 +8,24 @@ function addPin() {
 	pop.id = "pinPopup"
 
 	pop.innerHTML = `
-			<input type="text" id="pinTitle" placeholder="Title (optional)" />
-			<textarea id="pinNotes" placeholder="Notes (optional)"></textarea>
-			<div style="display:flex;gap:10px;">
-				<button id="submitPin">Add Pin</button>
-				<button id="cancelPin">Cancel</button>
-				<button id="clearPin">Clear Pins</button>
-			</div>
+    <div class="pop">
+        <form class="form">
+            <p class="heading">Pin Adder</p>
+            <div class="inputs">
+                <input placeholder="Title" class="input" type="text" id="pinTitle">
+                <input placeholder="Notes" class="input" type="text" id="pinNotes">
+            </div>
+            <div class="upperbtns">
+                <button id="submitPin" type="button" class="btn">Add</button>
+                <button id="cancelPin" type="button" class="btn">Cancel</button>
+            </div>
+            <button id="clearPin" type="button" class="btn">Delete all Pins</button>
+        </form>
+    </div>
 		`
 
 	Object.assign(pop.style, {
-		width: "250px",
-		padding: "12px",
-		background: "rgba(0,0,0,0.7)",
-		backdropFilter: "blur(8px)",
-		color: "white",
+		width: "15vw",
 		position: "fixed",
 		top: "20px",
 		right: "20px",
@@ -116,11 +119,16 @@ function loadPins() {
 
 		let savedPins = document.createElement("div")
 		savedPins.id = "savedPins"
+		savedPins.classList.add("form")
+
+		let pop = document.createElement("div")
 
 		for (const [index, pin] of currentPins.entries()) {
 			const pinDiv = document.createElement("div")
 			pinDiv.className = "writtenTitle"
 			pinDiv.textContent = pin.title || "(No Title)"
+
+			Object.assign(pinDiv.style, {})
 
 			// Add click listener to each pin div
 			pinDiv.addEventListener("click", () => {
@@ -132,29 +140,41 @@ function loadPins() {
 
 				// Optionally, close the savedPins div
 				document.getElementById("savedPins")?.remove()
+				document.getElementById("notediv")?.remove()
+			})
+
+			// event listener for mouse enter
+			let noteDiv
+
+			pinDiv.addEventListener("mouseenter", () => {
+				noteDiv = document.createElement("div")
+				noteDiv.id = "notediv"
+				noteDiv.classList.add("form")
+				noteDiv.textContent = pin.notes || "No notes"
+
+				pop.appendChild(noteDiv)
+			})
+
+			pinDiv.addEventListener("mouseleave", () => {
+				noteDiv?.remove()
 			})
 
 			savedPins.appendChild(pinDiv)
 		}
 
-		Object.assign(savedPins.style, {
-			width: "250px",
-			padding: "12px",
-			background: "rgba(0,0,0,0.7)",
-			backdropFilter: "blur(8px)",
-			color: "white",
+		Object.assign(pop.style, {
+			minWidth: "15vw",
 			position: "fixed",
 			top: "20px",
 			right: "20px",
 			borderRadius: "8px",
-			boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
 			display: "flex",
-			flexDirection: "column",
-			gap: "8px",
+			flexDirection: "row-reverse",
+			gap: "20px",
 			zIndex: 999999,
 		})
-
-		document.body.appendChild(savedPins)
+		document.body.appendChild(pop)
+		pop.appendChild(savedPins)
 	})
 }
 
@@ -217,19 +237,19 @@ function scrollerElement() {
 	// 3️⃣ Walk up from a deep element instead of scanning entire DOM
 	let el = document.elementFromPoint(
 		window.innerWidth / 2,
-		window.innerHeight / 2
+		window.innerHeight / 2,
 	)
 
 	while (el && el !== document.body) {
 		check++
 		if (isScrollable(el)) {
-			console.log('check', check)
+			console.log("check", check)
 			return el
 		}
 		el = el.parentElement
 	}
 
-	console.log('check', check)
+	console.log("check", check)
 	// 4️⃣ Fallback
 	return window
 }
@@ -265,4 +285,119 @@ document.addEventListener("keydown", (e) => {
 	}
 
 	if (e.key === "Escape") document.getElementById("pinPopup")?.remove()
+})
+
+window.addEventListener("load", () => {
+	const style = document.createElement("style")
+	style.textContent = `
+
+.form {
+	/* width: 100%; */
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 10px;
+	padding-top: 3em;
+	padding-left: 2.8em;
+	padding-right: 2.8em;
+	padding-bottom: 2.1em;
+	border: 2px dashed #daa06d;
+	border-radius: 15px;
+	background-color: #eaddca;
+	box-shadow:
+		0 0 0 4px #eaddca,
+		2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+	transition: 0.4s ease-in-out;
+}
+
+::placeholder {
+	color: #daa06d;
+	text-align: center;
+}
+
+.form .heading {
+	padding-left: 0.8em;
+	color: #daa06d;
+	background-color: transparent;
+	letter-spacing: 0.5em;
+	text-align: center;
+	padding-top: 1em;
+	padding-bottom: 1em;
+	text-shadow: inset -1px -1px 1px #daa06d;
+}
+
+.form .input {
+	outline: none;
+	padding: 0.5em;
+	border: 1px solid #daa06d;
+	color: #daa06d;
+	width: 80%;
+	height: 3em;
+	border-radius: 10px;
+	background-color: #eaddca;
+	text-align: center;
+}
+
+.form .inputs {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	justify-content: center;
+	align-items: center;
+}
+
+.form .btn {
+	align-self: center;
+	/* margin-top: 2em; */
+	border-radius: 10px;
+	outline: none;
+	border: none;
+	color: white;
+	background-color: #e5aa70;
+	font-weight: bold;
+	letter-spacing: 0.1em;
+	transition:
+		0.4s ease-in-out opacity,
+		0.1s ease-in-out active;
+	padding: 1em;
+	box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
+}
+
+.form .upperbtns {
+	display: flex;
+	gap: 30px;
+	justify-content: center;
+	margin-top: 1em;
+}
+
+
+.form .btn:hover {
+	opacity: 0.8;
+}
+
+.form .btn:active {
+	transform: translateX(0.1em) translateY(0.1em);
+	box-shadow: none;
+}
+
+.writtenTitle {
+	background-color: #3f2205;
+	padding: 0.8em;
+	border-radius: 8px;
+	cursor: pointer;
+	color: white;
+	transition: 0.2s ease;
+	color: #eed2b6;
+	text-align: center;
+}
+
+.writtenTitle:hover {
+	/* font-size: large; */
+	transform: translateY(-2px) scale(1.1);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+`
+	document.head.appendChild(style)
 })
