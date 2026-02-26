@@ -1,12 +1,3 @@
-Ahhh okay okay 😭 my bad.
-
-You’re right — we’re inside the **“where was that” pin extension** project. I mixed it with your API playground stuff. That’s on me.
-
-Let’s do this properly.
-
-Below is a clean, accurate README for your **Where Was That – Pin Chrome Extension** 👇
-
----
 
 # 📍 Where Was That
 
@@ -156,12 +147,4 @@ After making changes:
 * Smooth scroll to pin
 * Animation effects (bounce, pulse, etc.)
 
----
 
-If you want, I can now:
-
-* Make it sound more open-source polished
-* Or more minimal and clean
-* Or more fun and indie-project style
-
-And again — good catch. You were absolutely right to call that out 😌
