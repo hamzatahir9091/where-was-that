@@ -12,7 +12,7 @@ function addPin() {
 
 	pop.innerHTML = `
     <div class="pop">
-        <form class="form">
+        <form class="forme">
             <p class="heading">Pin Adder</p>
             <div class="inputs">
                 <input placeholder="Title" class="input" type="text" id="pinTitle">
@@ -59,6 +59,7 @@ function addPin() {
 
 		// Optionally, remove the saved pins UI
 		document.getElementById("savedPins")?.remove()
+		showDialogue("del")
 	})
 }
 
@@ -94,6 +95,8 @@ function savePin() {
 
 	// close popup after saving
 	document.getElementById("pinPopup")?.remove()
+
+	showDialogue("add")
 }
 
 function loadPins() {
@@ -116,16 +119,16 @@ function loadPins() {
 
 		let savedPins = document.createElement("div")
 		savedPins.id = "savedPins"
-		savedPins.classList.add("form")
+		savedPins.classList.add("forme")
 
 		let pop = document.createElement("div")
-
+		if (currentPins.length === 0) {
+			savedPins.innerText = "No Saved Pins Yet"
+		}
 		for (const [index, pin] of currentPins.entries()) {
 			const pinDiv = document.createElement("div")
 			pinDiv.className = "writtenTitle"
 			pinDiv.textContent = pin.title || "(No Title)"
-
-			Object.assign(pinDiv.style, {})
 
 			// Add click listener to each pin div
 			pinDiv.addEventListener("click", () => {
@@ -146,7 +149,7 @@ function loadPins() {
 			pinDiv.addEventListener("mouseenter", () => {
 				noteDiv = document.createElement("div")
 				noteDiv.id = "notediv"
-				noteDiv.classList.add("form")
+				noteDiv.classList.add("forme")
 				noteDiv.textContent = pin.notes || "No notes"
 
 				pop.appendChild(noteDiv)
@@ -281,7 +284,56 @@ window.addEventListener("load", () => {
 	const style = document.createElement("style")
 	style.textContent = `
 
-.form {
+	@keyframes scaleUp {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  80% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pop, #savedPins, .dialog {
+  animation: bounceIn 0.2s ease-out forwards;
+}
+
+// .pop, #savedPins, .dialog , #notediv {
+//   animation: scaleUp 0.2s ease-out forwards;
+// }
+  @keyframes scaleDown {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+.forme {
+	font-family:'Courier New', Courier, monospace;
+	color: #3f2205;
+
 	/* width: 100%; */
 	display: flex;
 	flex-direction: column;
@@ -300,12 +352,12 @@ window.addEventListener("load", () => {
 	transition: 0.4s ease-in-out;
 }
 
-::placeholder {
+.forme ::placeholder {
 	color: #daa06d;
 	text-align: center;
 }
 
-.form .heading {
+.forme .heading {
 	padding-left: 0.8em;
 	color: #daa06d;
 	background-color: transparent;
@@ -316,7 +368,7 @@ window.addEventListener("load", () => {
 	text-shadow: inset -1px -1px 1px #daa06d;
 }
 
-.form .input {
+.forme .input {
 	outline: none;
 	padding: 0.5em;
 	border: 1px solid #daa06d;
@@ -328,7 +380,7 @@ window.addEventListener("load", () => {
 	text-align: center;
 }
 
-.form .inputs {
+.forme .inputs {
 	display: flex;
 	flex-direction: column;
 	gap: 10px;
@@ -336,7 +388,7 @@ window.addEventListener("load", () => {
 	align-items: center;
 }
 
-.form .btn {
+.forme .btn {
 	align-self: center;
 	/* margin-top: 2em; */
 	border-radius: 10px;
@@ -353,7 +405,7 @@ window.addEventListener("load", () => {
 	box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
 
-.form .upperbtns {
+.forme .upperbtns {
 	display: flex;
 	gap: 30px;
 	justify-content: center;
@@ -361,11 +413,11 @@ window.addEventListener("load", () => {
 }
 
 
-.form .btn:hover {
+.forme .btn:hover {
 	opacity: 0.8;
 }
 
-.form .btn:active {
+.forme .btn:active {
 	transform: translateX(0.1em) translateY(0.1em);
 	box-shadow: none;
 }
@@ -387,6 +439,31 @@ window.addEventListener("load", () => {
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.dialog {
+	position: fixed;
+	top: 20px; 
+	left: 50%; 
+	transform: translateX(-50%); 
+	width: 250px;
+	display: flex;
+	justify-content: center;
+	padding-block: 1em;
+	padding-inline: 1em;
+	border: 2px dashed #daa06d;
+	border-radius: 15px;
+	background-color: #eaddca;
+	box-shadow:
+		0 0 0 4px #eaddca,
+		2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+	transition: all 0.4s ease-in-out;
+	font-size:large;
+	font-family:'Courier New', Courier, monospace;
+	color: #3f2205;
+	font-weight: 600;
+	  z-index: 999999;
+
+}
+
 
 `
 	document.head.appendChild(style)
@@ -402,5 +479,19 @@ chrome.runtime.onMessage.addListener((message) => {
 		MARKERS.delete(url)
 		chrome.storage.local.remove(url)
 		document.getElementById("savedPins")?.remove()
+		showDialogue("del")
 	}
 })
+
+function showDialogue(action) {
+	const dia = document.createElement("div")
+	dia.classList.add("dialog")
+
+	dia.innerText =
+		action === "add" ? "Pin Added Successfully" : "Pins Deleted Successfully"
+
+	document.body.appendChild(dia)
+	const time = setTimeout(() => {
+		dia.remove()
+	}, 3000)
+}
