@@ -1,13 +1,3 @@
-Ahhh okay okay 😭 my bad.
-
-You’re right — we’re inside the **“where was that” pin extension** project. I mixed it with your API playground stuff. That’s on me.
-
-Let’s do this properly.
-
-Below is a clean, accurate README for your **Where Was That – Pin Chrome Extension** 👇
-
----
-
 # 📍 Where Was That
 
 A lightweight Chrome extension that lets you **drop visual pins on any webpage** and save their positions — so you never lose where something was again.
@@ -24,7 +14,6 @@ Perfect for:
 ## ✨ Features
 
 * 📌 Add pins anywhere on a webpage
-* 🖱️ Click-to-place system
 * 💾 Pins stored per page
 * 🗂 View saved pins
 * ⌨️ Keyboard shortcuts support
@@ -65,9 +54,7 @@ where-was-that/
 ├── manifest.json
 ├── content.js
 ├── popup.html
-├── popup.js
-├── styles.css
-└── assets/
+
 ```
 
 ---
@@ -158,10 +145,3 @@ After making changes:
 
 ---
 
-If you want, I can now:
-
-* Make it sound more open-source polished
-* Or more minimal and clean
-* Or more fun and indie-project style
-
-And again — good catch. You were absolutely right to call that out 😌

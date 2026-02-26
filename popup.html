@@ -11,7 +11,8 @@
             padding: 15px;
             width: 300px;
             background-color: #f4efe7;
-            font-family: sans-serif;
+            font-family: 'Courier New', Courier, monospace;
+            /* letter-spacing: 0.3em; */
         }
 
         .form {
@@ -25,6 +26,26 @@
             box-shadow:
                 0 0 0 4px #eaddca,
                 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .forme .spotheading {
+            padding-left: 0.8em;
+            color: #6b3e1f;
+            font-weight: bolder;
+            background-color: transparent;
+            letter-spacing: 0.2em;
+            text-align: center;
+            padding-top: 1em;
+            padding-bottom: 1em;
+            text-shadow: inset -1px -1px 1px #daa06d;
+            font-size: x-large;
+            width: 100%;
+        }
+
+        .forme ::placeholder {
+            color: #daa06d;
+            text-align: center;
+            font-size: medium;
         }
 
         ::placeholder {
@@ -73,7 +94,7 @@
 
 
         .shortcutBox {
-            margin-top: 1.5em;
+            /* margin-top: 0.8em; */
             padding: 1em;
             border-radius: 12px;
 
@@ -88,15 +109,18 @@
             color: #daa06d;
             font-weight: bold;
             letter-spacing: 0.2em;
+            font-size: large;
         }
 
         .shortcutRow {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13px;
+            font-size: 15px;
             color: #6b3e1f;
+            font-weight: 600;
         }
+
 
         .keys {
             display: flex;
@@ -116,12 +140,46 @@
         .divider {
             opacity: 0.5;
         }
+
+        .mainHeading {
+            font-weight: bolder;
+            color: #3f2205;
+            font-size: x-large;
+            text-align: center;
+        }
+
+        .subHeading {
+            font-weight: bolder;
+            color: #3f2205;
+            font-size: medium;
+            text-align: center;
+            padding-top: 0.5em;
+        }
+
+        .line {
+            width: 100%;
+            height: 2px;
+            background: #6b3e1f;
+            margin-top: 2em;
+        }
+
+        .con {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
     </style>
 </head>
 
 <body>
 
     <div class="form">
+        <div class="con">
+            <div class="mainHeading">Where Was That!</div>
+            <div class="subHeading">Oh… now you know.</div>
+            <div class="line"></div>
+        </div>
         <div class="shortcutBox">
             <p class="shortcutHeading">Keyboard Shortcuts</p>
 

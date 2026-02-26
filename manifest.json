@@ -1,13 +1,17 @@
 {
   "manifest_version": 3,
-  "name": "Pin Extension",
+  "name": "Where Was That",
   "version": "1.0",
   "permissions": ["storage", "activeTab", "scripting"],
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": "icons/pin-24.png"
+  },
+  "icons": {
+    "128": "icons/pin-48.png"
   },
   "commands": {
     "add-pin": {

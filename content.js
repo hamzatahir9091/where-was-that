@@ -11,12 +11,12 @@ function addPin() {
 	pop.id = "pinPopup"
 
 	pop.innerHTML = `
-    <div class="pop">
         <form class="forme">
-            <p class="heading">Pin Adder</p>
+
+            <div class="spotheading">Save This Spot <span><svg class="pinsvg" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 312 512"><path fill="#6b3e1f" d="M336 96a80 80 0 1 0-96 78.39v283.17a32.09 32.09 0 0 0 2.49 12.38l10.07 24a3.92 3.92 0 0 0 6.88 0l10.07-24a32.09 32.09 0 0 0 2.49-12.38V174.39A80.13 80.13 0 0 0 336 96Zm-56 0a24 24 0 1 1 24-24a24 24 0 0 1-24 24Z"/></svg></span></div>
             <div class="inputs">
-                <input placeholder="Title" class="input" type="text" id="pinTitle">
-                <input placeholder="Notes" class="input" type="text" id="pinNotes">
+                <input placeholder="Give it a name…" class="input" autocomplete="off" type="text" id="pinTitle">
+                <input placeholder="Any extra details?" class="input" autocomplete="off" type="text" id="pinNotes">
             </div>
             <div class="upperbtns">
                 <button id="submitPin" type="button" class="btn">Add</button>
@@ -24,14 +24,13 @@ function addPin() {
             </div>
             <button id="clearPin" type="button" class="btn">Delete all Pins</button>
         </form>
-    </div>
 		`
 
 	Object.assign(pop.style, {
-		width: "15vw",
+		width: "20vw",
 		position: "fixed",
-		top: "20px",
-		right: "20px",
+		top: "30px",
+		right: "30px",
 		borderRadius: "8px",
 		boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
 		display: "flex",
@@ -319,6 +318,7 @@ window.addEventListener("load", () => {
 // .pop, #savedPins, .dialog , #notediv {
 //   animation: scaleUp 0.2s ease-out forwards;
 // }
+
   @keyframes scaleDown {
   0% {
     transform: scale(1);
@@ -330,141 +330,154 @@ window.addEventListener("load", () => {
   }
 }
 
-.forme {
-	font-family:'Courier New', Courier, monospace;
-	color: #3f2205;
+        .forme {
+            font-family: 'Courier New', Courier, monospace;
+            color: #3f2205;
 
-	/* width: 100%; */
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	gap: 10px;
-	padding-top: 3em;
-	padding-left: 2.8em;
-	padding-right: 2.8em;
-	padding-bottom: 2.1em;
-	border: 2px dashed #daa06d;
-	border-radius: 15px;
-	background-color: #eaddca;
-	box-shadow:
-		0 0 0 4px #eaddca,
-		2px 2px 4px 2px rgba(0, 0, 0, 0.5);
-	transition: 0.4s ease-in-out;
-}
+            /* width: 100%; */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding-top: 3em;
+            padding-left: 2.8em;
+            padding-right: 2.8em;
+            padding-bottom: 2.1em;
+            border: 2px dashed #daa06d;
 
-.forme ::placeholder {
-	color: #daa06d;
-	text-align: center;
-}
+            border-radius: 15px;
+            background-color: #eaddca;
+            box-shadow:
+                0 0 0 4px #eaddca,
+                2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+            transition: 0.4s ease-in-out;
+        }
 
-.forme .heading {
-	padding-left: 0.8em;
-	color: #daa06d;
-	background-color: transparent;
-	letter-spacing: 0.5em;
-	text-align: center;
-	padding-top: 1em;
-	padding-bottom: 1em;
-	text-shadow: inset -1px -1px 1px #daa06d;
-}
+        .forme ::placeholder {
+            color: #daa06d;
+            text-align: center;
+            font-size: medium;
+        }
 
-.forme .input {
-	outline: none;
-	padding: 0.5em;
-	border: 1px solid #daa06d;
-	color: #daa06d;
-	width: 80%;
-	height: 3em;
-	border-radius: 10px;
-	background-color: #eaddca;
-	text-align: center;
-}
+        .forme .spotheading {
+            color: #6b3e1f;
+            font-weight: bolder;
+            background-color: transparent;
+            letter-spacing: 0.2em;
+            text-align: center;
+            padding-top: 1em;
+            padding-bottom: 1em;
+            text-shadow: inset -1px -1px 1px #daa06d;
+            font-size: x-large;
+            width: 100%;
+        }
 
-.forme .inputs {
-	display: flex;
-	flex-direction: column;
-	gap: 10px;
-	justify-content: center;
-	align-items: center;
-}
+        .forme .input {
+            outline: none;
+            padding: 0.5em;
+            border: 1px solid #daa06d;
+            color: #6b3e1f;
+            width: 100%;
+            height: 3em;
+            border-radius: 10px;
+            background-color: #eaddca;
+            text-align: center;
+            font-size: medium;
+        }
 
-.forme .btn {
-	align-self: center;
-	/* margin-top: 2em; */
-	border-radius: 10px;
-	outline: none;
-	border: none;
-	color: white;
-	background-color: #e5aa70;
-	font-weight: bold;
-	letter-spacing: 0.1em;
-	transition:
-		0.4s ease-in-out opacity,
-		0.1s ease-in-out active;
-	padding: 1em;
-	box-shadow: 0.5px 0.5px 0.5px 0.5px rgba(0, 0, 0, 0.5);
-}
+        .forme .input:focus {
+            border: 2px solid #6b3e1f;
+        }
 
-.forme .upperbtns {
-	display: flex;
-	gap: 30px;
-	justify-content: center;
-	margin-top: 1em;
-}
+        .forme .inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .forme .btn {
+            align-self: center;
+            /* margin-top: 2em; */
+            border-radius: 10px;
+            outline: none;
+            border: none;
+            color: white;
+            background-color: #e5aa70;
+            font-weight: bold;
+            letter-spacing: 0.1em;
+            transition:
+                0.4s ease-in-out opacity,
+                0.1s ease-in-out active;
+            padding: 1em;
+            box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.5);
+        }
 
-.forme .btn:hover {
-	opacity: 0.8;
-}
-
-.forme .btn:active {
-	transform: translateX(0.1em) translateY(0.1em);
-	box-shadow: none;
-}
-
-.writtenTitle {
-	background-color: #3f2205;
-	padding: 0.8em;
-	border-radius: 8px;
-	cursor: pointer;
-	color: white;
-	transition: 0.2s ease;
-	color: #eed2b6;
-	text-align: center;
-}
-
-.writtenTitle:hover {
-	/* font-size: large; */
-	transform: translateY(-2px) scale(1.1);
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.dialog {
-	position: fixed;
-	top: 20px; 
-	left: 50%; 
-	transform: translateX(-50%); 
-	width: 250px;
-	display: flex;
-	justify-content: center;
-	padding-block: 1em;
-	padding-inline: 1em;
-	border: 2px dashed #daa06d;
-	border-radius: 15px;
-	background-color: #eaddca;
-	box-shadow:
-		0 0 0 4px #eaddca,
-		2px 2px 4px 2px rgba(0, 0, 0, 0.5);
-	transition: all 0.4s ease-in-out;
-	font-size:large;
-	font-family:'Courier New', Courier, monospace;
-	color: #3f2205;
-	font-weight: 600;
-	  z-index: 999999;
-
-}
+        .forme .upperbtns {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-top: 1em;
+        }
 
 
+        .forme .btn:hover {
+            opacity: 0.8;
+            cursor: pointer;
+        }
+
+        .forme .btn:active {
+            transform: translateX(0.5em) translateY(0.5em);
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.3) inset;
+        }
+
+        .writtenTitle {
+            background-color: #3f2205;
+            padding: 0.8em;
+            border-radius: 8px;
+            cursor: pointer;
+            color: white;
+            transition: 0.2s ease;
+            color: #eed2b6;
+            text-align: center;
+        }
+
+        .writtenTitle:hover {
+            /* font-size: large; */
+            transform: translateY(-2px) scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .dialog {
+            position: fixed;
+            top: 20px;
+            left: 45%;
+            transform: translateX(-50%);
+            width: 250px;
+            display: flex;
+            justify-content: center;
+            padding-block: 1em;
+            padding-inline: 1em;
+            border: 2px dashed #daa06d;
+            border-radius: 15px;
+            background-color: #eaddca;
+            box-shadow:
+                0 0 0 4px #eaddca,
+                2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease-in-out;
+            font-size: large;
+            font-family: 'Courier New', Courier, monospace;
+            color: #3f2205;
+            font-weight: 600;
+            z-index: 999999;
+
+        }
+
+       .pinsvg{
+            transform: translate(-25px ,5px);
+        }
 `
 	document.head.appendChild(style)
 })
