@@ -1,7 +1,7 @@
 
-# 📍 Where Was That
+# Where Was That
 
-A lightweight Chrome extension that lets you **drop visual pins on any webpage** and save their positions — so you never lose where something was again.
+A lightweight Chrome extension that lets you **drop visual pins on any webpage** and save their positions so you never lose where something was again.
 
 Perfect for:
 
@@ -12,29 +12,29 @@ Perfect for:
 
 ---
 
-## ✨ Features
+## Features
 
-* 📌 Add pins anywhere on a webpage
-* 🖱️ Click-to-place system
-* 💾 Pins stored per page
-* 🗂 View saved pins
-* ⌨️ Keyboard shortcuts support
-* 🎯 Lightweight & fast
+*  Add pins anywhere on a webpage
+*  Click-to-place system
+*  Pins stored per page
+*  View saved pins
+*  Keyboard shortcuts support
+*  Lightweight & fast
 
 ---
 
-# 🛠 How To Use Locally (Development Setup)
+# How To Use Locally (Development Setup)
 
-Since this is a Chrome extension, it’s not started with `npm run dev`.
+This project is a Chrome extension and must be loaded manually in development mode.
 
 Follow these steps:
 
 ---
 
-## 1️⃣ Clone the repository
+## Clone the repository
 
 ```bash
-git clone https://github.com/your-username/where-was-that.git
+https://github.com/hamzatahir9091/where-was-that.git
 cd where-was-that
 ```
 
@@ -46,7 +46,7 @@ git pull origin main
 
 ---
 
-## 2️⃣ Make Sure You Have These Files
+## Make Sure You Have These Files
 
 Your project folder should look something like:
 
@@ -63,7 +63,7 @@ where-was-that/
 
 ---
 
-## 3️⃣ Load Extension in Chrome
+## Load Extension in Chrome
 
 1. Open Chrome
 2. Go to:
@@ -76,75 +76,18 @@ chrome://extensions
 4. Click **Load unpacked**
 5. Select your `where-was-that` project folder
 
-Done ✅
-
 Your extension should now appear in the toolbar.
 
 ---
 
-# 📌 How To Use The Extension
 
-### 🔹 Add a Pin
+# How It Works
 
-* Click the extension icon
-* Use your “Add Pin” button
-* Click anywhere on the page
-* Pin gets placed
-
----
-
-### 🔹 View Saved Pins
-
-* Click the extension icon
-* Open saved pins panel
-* Click a saved pin to scroll to it
-
----
-
-### 🔹 Keyboard Shortcuts (Example)
-
-You can configure shortcuts in:
-
-```
-chrome://extensions/shortcuts
-```
-
-Suggested:
-
-| Action    | Windows/Linux    | Mac             |
-| --------- | ---------------- | --------------- |
-| Add Pin   | Ctrl + Shift + P | Cmd + Shift + P |
-| Show Pins | Ctrl + Shift + O | Cmd + Shift + O |
-
----
-
-# 🧠 How It Works
-
-* `content.js` injects UI & handles pin placement
+* `content.js` handles UI & pin placement
 * Pins are positioned using absolute positioning
-* Coordinates are stored (likely using `chrome.storage`)
+* Coordinates are stored using Chrome's storage APIs
 * Pins are re-rendered on page reload
 
 ---
 
-# 🔄 Updating the Extension
-
-After making changes:
-
-1. Go to `chrome://extensions`
-2. Click **Reload** on your extension
-3. Refresh your test page
-
----
-
-# 🏗 Future Improvements
-
-* Drag to reposition pins
-* Rename pins
-* Color-coded pins
-* Per-domain pin grouping
-* Export / import pins
-* Smooth scroll to pin
-* Animation effects (bounce, pulse, etc.)
-
-
+Contributions are welcome and appreciated. If you would like to improve this project, feel free to fork the repository and submit a pull request.
