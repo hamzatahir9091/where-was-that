@@ -9,25 +9,22 @@
   "action": {
     "default_popup": "popup.html"
   },
-  "commands": {
+ "commands": {
     "add-pin": {
       "suggested_key": {
-        "default": "Alt+S",
-        "mac": "Alt+S"
+        "default": "Ctrl+Shift+S"
       },
       "description": "Add Pin"
     },
     "open-pins": {
       "suggested_key": {
-        "default": "Alt+O",
-        "mac": "Alt+O"
+        "default": "Ctrl+Shift+O"
       },
       "description": "Open Saved Pins"
     },
     "clear-pins": {
       "suggested_key": {
-        "default": "Alt+C",
-        "mac": "Alt+C"
+        "default": "Ctrl+Shift+C"
       },
       "description": "Clear Pins"
     }
