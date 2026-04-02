@@ -273,10 +273,21 @@ function getScroller() {
 	return cachedScroller
 }
 
+// key listners
+
 document.addEventListener("keydown", (e) => {
 	if (e.key === "Escape") {
 		document.getElementById("pinPopup")?.remove()
 		document.getElementById("savedPins")?.remove()
+		document.getElementById("holdPins")?.remove()
+	}
+
+	if (e.key === "Enter") {
+		// Only trigger if popup is open
+		const popup = document.getElementById("pinPopup")
+		if (popup) {
+			savePin()
+		}
 	}
 })
 
@@ -464,23 +475,44 @@ window.addEventListener("load", () => {
 
 }
 
+/* styles for pin holder */
+
+.holdPin{
+    max-width: 50px;
+    min-height: 50px;
+    position: fixed;
+    top: 10px;
+    right: 20px;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 5px;
+	
+
+	border: 2px dashed #daa06d;
+	border-radius: 50px;
+	background-color: #eaddca;
+	box-shadow:
+		0 0 0 4px #eaddca,
+		2px 2px 4px 2px rgba(0, 0, 0, 0.5);
+	transition: 0.4s ease-in-out;
+}
+
+
+.pinDot {
+  width: 10px;
+  height: 10px;
+  background-color: #301c08;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
 
 `
 	document.head.appendChild(style)
-})
-
-chrome.runtime.onMessage.addListener((message) => {
-	if (message.action === "add-pin") addPin()
-
-	if (message.action === "open-pins") loadPins()
-
-	if (message.action === "clear-pins") {
-		const url = window.location.href
-		MARKERS.delete(url)
-		chrome.storage.local.remove(url)
-		document.getElementById("savedPins")?.remove()
-		showDialogue("del")
-	}
 })
 
 function showDialogue(action) {
@@ -495,3 +527,94 @@ function showDialogue(action) {
 		dia.remove()
 	}, 3000)
 }
+
+// PIN HOLDER FUNCTION
+
+async function showPinsPermanent() {
+	// getting scroller
+	tempScroller = getScroller()
+
+	// getting url for extracting pins
+	let currentUrl = window.location.href
+
+	// extracting objectified pins from chrome
+	const result = await chrome.storage.local.get()
+
+	MARKERS.clear()
+
+	// converting back our pins
+	for (const [url, pins] of Object.entries(result)) MARKERS.set(url, pins)
+
+	// getting pins for current tab from markers
+	let currentPins = MARKERS.get(currentUrl) || []
+
+	// creting the pin-Holder
+	let pinHolder = document.createElement("div")
+	pinHolder.classList.add("holdPin")
+	pinHolder.id = "holdPins"
+
+	// looping through pins to render them
+	for (const pin of currentPins) {
+		let dot = document.createElement("div")
+		dot.classList.add("pinDot")
+
+		pinHolder.appendChild(dot)
+
+		// conneccting scroller to it
+		dot.addEventListener("click", () => {
+			tempScroller.scrollTo({
+				top: pin.scrollOffset,
+				behavior: "smooth",
+			})
+		})
+
+		console.log("pin.title", pin.title)
+
+		// adding the mouse hover for title
+		let titleDiv
+
+		dot.addEventListener("mouseenter", () => {
+			titleDiv = document.createElement("div")
+			titleDiv.id = "titleDiv"
+			titleDiv.textContent = pin.title || "No title"
+			titleDiv.style.position = "absolute"
+			titleDiv.style.backgroundColor = "#eaddca"
+			titleDiv.style.padding = "4px 8px"
+			titleDiv.style.border = "1px solid #daa06d"
+			titleDiv.style.borderRadius = "6px"
+			titleDiv.style.whiteSpace = "nowrap"
+			titleDiv.style.zIndex = 999999
+
+			// Position the title to the left of the pin dot
+			const rect = dot.getBoundingClientRect()
+			titleDiv.style.top = `${rect.top + window.scrollY -10}px`
+			titleDiv.style.right = `${100}px` // 10px gap
+
+			document.body.appendChild(titleDiv)
+		})
+
+		dot.addEventListener("mouseleave", () => {
+			titleDiv?.remove()
+		})
+	}
+
+	// adding pin holder to the dom
+	document.body.appendChild(pinHolder)
+}
+
+// listening to the keuboard shortcuts
+chrome.runtime.onMessage.addListener((message) => {
+	if (message.action === "add-pin") addPin()
+
+	if (message.action === "open-pins") loadPins()
+
+	if (message.action === "clear-pins") {
+		const url = window.location.href
+		MARKERS.delete(url)
+		chrome.storage.local.remove(url)
+		document.getElementById("savedPins")?.remove()
+		showDialogue("del")
+	}
+
+	if (message.action === "hold-pins") showPinsPermanent()
+})

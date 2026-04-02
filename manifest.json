@@ -22,6 +22,12 @@
       },
       "description": "Open Saved Pins"
     },
+    "hold-pins": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+1"
+      },
+      "description": "Hold pins in UI"
+    },
     "clear-pins": {
       "suggested_key": {
         "default": "Ctrl+Shift+C"
