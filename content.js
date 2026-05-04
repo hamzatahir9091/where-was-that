@@ -323,7 +323,7 @@ window.addEventListener("load", () => {
   }
 }
 
-.pop, #savedPins, .dialog {
+.pop, #savedPins, .dialog , #titleDiv ,.holdPin {
   animation: bounceIn 0.2s ease-out forwards;
 }
 
@@ -383,8 +383,9 @@ window.addEventListener("load", () => {
 	outline: none;
 	padding: 0.5em;
 	border: 1px solid #daa06d;
-	color: #daa06d;
+	color: #46280e;
 	width: 80%;
+    font-weight: 400;
 	height: 3em;
 	border-radius: 10px;
 	background-color: #eaddca;
@@ -498,9 +499,13 @@ window.addEventListener("load", () => {
 	box-shadow:
 		0 0 0 4px #eaddca,
 		2px 2px 4px 2px rgba(0, 0, 0, 0.5);
-	transition: 0.4s ease-in-out;
+	transition: transform 0.2s ease-out;
+
 }
 
+.holdPin:hover{
+	transform : scale(1.1)
+}
 
 .pinDot {
   width: 10px;
@@ -509,6 +514,10 @@ window.addEventListener("load", () => {
   border-radius: 50%;
   cursor: pointer;
   transition: transform 0.2s;
+}
+
+.pinDot:hover {
+  transform: scale(1.5); /* grows 1.5x */
 }
 
 `
@@ -587,8 +596,8 @@ async function showPinsPermanent() {
 
 			// Position the title to the left of the pin dot
 			const rect = dot.getBoundingClientRect()
-			titleDiv.style.top = `${rect.top + window.scrollY -10}px`
-			titleDiv.style.right = `${100}px` // 10px gap
+			titleDiv.style.top = `${rect.top + window.scrollY - 10}px`
+			titleDiv.style.right = `${50}px` // 10px gap
 
 			document.body.appendChild(titleDiv)
 		})

@@ -1,0 +1,16 @@
+.pininput{
+    color: rgb(66, 42, 11);
+}
+
+.forme .input {
+	outline: none;
+	padding: 0.5em;
+	border: 1px solid #daa06d;
+	color: #46280e;
+    font-weight: 400;
+	width: 80%;
+	height: 3em;
+	border-radius: 10px;
+	background-color: #eaddca;
+	text-align: center;
+}
